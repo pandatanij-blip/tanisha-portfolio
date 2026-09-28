@@ -1,0 +1,55 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Enquiries — Admin</title>
+<style>
+:root{--bg:#000;--sf:#0e0e0e;--tx:#f5f5f5;--mu:#8a8a8a;--ln:rgba(255,255,255,.12);--c:#d4af37;--k:#f3d67a;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.6 "Space Grotesk",system-ui,sans-serif}
+.w{max-width:1100px;margin:0 auto;padding:28px 20px}h1{margin:0 0 20px;font-size:26px;letter-spacing:-.02em;background:linear-gradient(100deg,#b8860b,#f3d67a 45%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mu)}
+.bar{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px;margin-bottom:18px}
+input,select,button{font:inherit;color:var(--tx);background:var(--sf);border:1px solid var(--ln);padding:10px 12px;border-radius:0;min-width:0}
+input:focus,select:focus,button:focus-visible{outline:0;border-color:var(--c)}button{cursor:pointer}button:hover{border-color:var(--c)}
+.tw{overflow-x:auto;border:1px solid var(--ln)}table{width:100%;border-collapse:collapse;min-width:680px}
+th{text-align:left;padding:12px 14px;border-bottom:1px solid var(--ln)}td{padding:12px 14px;border-bottom:1px solid var(--ln);vertical-align:top}
+tbody tr{cursor:pointer}tbody tr:hover{background:rgba(212,175,55,.07)}
+.pill{display:inline-block;padding:2px 10px;border:1px solid var(--c);color:var(--k);font-size:12px;letter-spacing:.06em}
+.st{text-transform:uppercase;font-size:12px;letter-spacing:.1em}.st.new{color:var(--c);font-weight:700}
+.top{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--c);margin:18px 0}.top>div{padding:20px}.top>div+div{border-left:1px solid var(--ln)}
+.big{font-size:clamp(22px,4vw,34px);font-weight:700;line-height:1.15;margin-top:6px}
+.box{border:1px solid var(--ln);padding:20px;margin-bottom:16px;background:var(--sf)}.box dl{display:grid;grid-template-columns:110px 1fr;gap:8px 16px;margin:12px 0 0}
+dt{color:var(--mu)}dd{margin:0;word-break:break-word}a{color:var(--k)}pre{white-space:pre-wrap;word-break:break-word;font:inherit;margin:12px 0 0}
+.empty{padding:30px;color:var(--mu);text-align:center}
+@media(max-width:640px){.bar{grid-template-columns:1fr}.top{grid-template-columns:1fr}.top>div+div{border-left:0;border-top:1px solid var(--ln)}.box dl{grid-template-columns:1fr;gap:2px}dt{margin-top:8px}}
+</style></head><body><div class="w" id="app"></div>
+<script>
+let META={services:{},statuses:[]};const $=s=>document.querySelector(s);
+const el=(t,p={},...k)=>{const e=document.createElement(t);Object.assign(e,p);e.append(...k);return e};
+const api=async(u,o)=>{const r=await fetch(u,o);if(!r.ok)throw new Error((await r.json().catch(()=>({}))).error||r.status);return r.json()};
+const fmt=d=>new Date(d.replace(" ","T")+"Z").toLocaleString();
+const svc=v=>META.services[v]||v||"—";
+async function list(){
+ const app=$("#app");app.replaceChildren(el("h1",{textContent:"Enquiries"}));
+ const q=el("input",{type:"search",placeholder:"Search name, email, subject, message…"});
+ const s=el("select",{},el("option",{value:"",textContent:"All services"}),...Object.entries(META.services).map(([v,l])=>el("option",{value:v,textContent:l})));
+ const st=el("select",{},el("option",{value:"",textContent:"All statuses"}),...META.statuses.map(v=>el("option",{value:v,textContent:v})));
+ const box=el("div");app.append(el("div",{className:"bar"},q,s,st),box);
+ const load=async()=>{
+  const p=new URLSearchParams({q:q.value,service:s.value,status:st.value});
+  const rows=await api("/api/admin/enquiries?"+p);
+  if(!rows.length){box.replaceChildren(el("div",{className:"tw empty",textContent:"No enquiries found."}));return}
+  const tb=el("tbody");rows.forEach(r=>{const tr=el("tr",{tabIndex:0},el("td",{textContent:fmt(r.createdAt)}),el("td",{},r.name,el("br"),el("span",{className:"lab",textContent:r.email})),el("td",{},el("span",{className:"pill",textContent:svc(r.service)})),el("td",{textContent:r.subject||"—"}),el("td",{className:"st "+r.status,textContent:r.status}));
+   tr.onclick=()=>location.hash="#"+r.id;tr.onkeydown=e=>e.key==="Enter"&&tr.click();tb.append(tr)});
+  box.replaceChildren(el("div",{className:"tw"},el("table",{},el("thead",{},el("tr",{},...["Received","Client","Service","Subject","Status"].map(h=>el("th",{className:"lab",textContent:h})))),tb)))};
+ let t;q.oninput=()=>{clearTimeout(t);t=setTimeout(load,250)};s.onchange=st.onchange=load;load()}
+async function detail(id){
+ const r=await api("/api/admin/enquiries/"+id),app=$("#app");
+ const dl=(...x)=>el("dl",{},...x.flatMap(([k,v])=>[el("dt",{textContent:k}),el("dd",{},v)]));
+ const sel=el("select",{},...META.statuses.map(v=>el("option",{value:v,textContent:v.toUpperCase(),selected:v===r.status})));
+ sel.onchange=()=>api("/api/admin/enquiries/"+id,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status:sel.value})});
+ app.replaceChildren(el("button",{textContent:"← All enquiries",onclick:()=>location.hash=""}),el("h1",{style:"margin-top:18px",textContent:r.subject||"Enquiry #"+r.id}),
+  el("div",{className:"top"},el("div",{},el("div",{className:"lab",textContent:"Service"}),el("div",{className:"big",textContent:svc(r.service)}),
+    r.serviceOtherDetails?el("pre",{textContent:"Other requirements: "+r.serviceOtherDetails}):""),
+   el("div",{},el("div",{className:"lab",textContent:"Status"}),el("div",{style:"margin-top:8px"},sel))),
+  el("div",{className:"box"},el("div",{className:"lab",textContent:"Client details"}),dl(["Name",r.name],["Email",el("a",{href:"mailto:"+r.email,textContent:r.email})],["Phone",r.phone?el("a",{href:"tel:"+r.phone,textContent:r.phone}):"—"],["Received",fmt(r.createdAt)])),
+  el("div",{className:"box"},el("div",{className:"lab",textContent:"Project details"}),dl(["Subject",r.subject||"—"]),el("pre",{textContent:r.message})))}
+async function route(){try{const id=location.hash.slice(1);id?await detail(id):await list()}catch(e){$("#app").textContent="Error: "+e.message}}
+(async()=>{META=await api("/api/admin/meta");addEventListener("hashchange",route);route()})();
+</script></body></html>
