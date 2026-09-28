@@ -23,7 +23,7 @@ dt{color:var(--mu)}dd{margin:0;word-break:break-word}a{color:var(--k)}pre{white-
 let META={services:{},statuses:[]};const $=s=>document.querySelector(s);
 const el=(t,p={},...k)=>{const e=document.createElement(t);Object.assign(e,p);e.append(...k);return e};
 const api=async(u,o)=>{const r=await fetch(u,o);if(!r.ok)throw new Error((await r.json().catch(()=>({}))).error||r.status);return r.json()};
-const fmt=d=>new Date(d.replace(" ","T")+"Z").toLocaleString();
+const fmt=d=>new Date(d).toLocaleString();
 const svc=v=>META.services[v]||v||"—";
 async function list(){
  const app=$("#app");app.replaceChildren(el("h1",{textContent:"Enquiries"}));
@@ -33,17 +33,17 @@ async function list(){
  const box=el("div");app.append(el("div",{className:"bar"},q,s,st),box);
  const load=async()=>{
   const p=new URLSearchParams({q:q.value,service:s.value,status:st.value});
-  const rows=await api("/api/admin/enquiries?"+p);
+  const rows=await api("/api/admin?"+p);
   if(!rows.length){box.replaceChildren(el("div",{className:"tw empty",textContent:"No enquiries found."}));return}
   const tb=el("tbody");rows.forEach(r=>{const tr=el("tr",{tabIndex:0},el("td",{textContent:fmt(r.createdAt)}),el("td",{},r.name,el("br"),el("span",{className:"lab",textContent:r.email})),el("td",{},el("span",{className:"pill",textContent:svc(r.service)})),el("td",{textContent:r.subject||"—"}),el("td",{className:"st "+r.status,textContent:r.status}));
    tr.onclick=()=>location.hash="#"+r.id;tr.onkeydown=e=>e.key==="Enter"&&tr.click();tb.append(tr)});
   box.replaceChildren(el("div",{className:"tw"},el("table",{},el("thead",{},el("tr",{},...["Received","Client","Service","Subject","Status"].map(h=>el("th",{className:"lab",textContent:h})))),tb)))};
  let t;q.oninput=()=>{clearTimeout(t);t=setTimeout(load,250)};s.onchange=st.onchange=load;load()}
 async function detail(id){
- const r=await api("/api/admin/enquiries/"+id),app=$("#app");
+ const r=await api("/api/admin?id="+id),app=$("#app");
  const dl=(...x)=>el("dl",{},...x.flatMap(([k,v])=>[el("dt",{textContent:k}),el("dd",{},v)]));
  const sel=el("select",{},...META.statuses.map(v=>el("option",{value:v,textContent:v.toUpperCase(),selected:v===r.status})));
- sel.onchange=()=>api("/api/admin/enquiries/"+id,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status:sel.value})});
+ sel.onchange=()=>api("/api/admin?id="+id,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status:sel.value})});
  app.replaceChildren(el("button",{textContent:"← All enquiries",onclick:()=>location.hash=""}),el("h1",{style:"margin-top:18px",textContent:r.subject||"Enquiry #"+r.id}),
   el("div",{className:"top"},el("div",{},el("div",{className:"lab",textContent:"Service"}),el("div",{className:"big",textContent:svc(r.service)}),
     r.serviceOtherDetails?el("pre",{textContent:"Other requirements: "+r.serviceOtherDetails}):""),
@@ -51,5 +51,5 @@ async function detail(id){
   el("div",{className:"box"},el("div",{className:"lab",textContent:"Client details"}),dl(["Name",r.name],["Email",el("a",{href:"mailto:"+r.email,textContent:r.email})],["Phone",r.phone?el("a",{href:"tel:"+r.phone,textContent:r.phone}):"—"],["Received",fmt(r.createdAt)])),
   el("div",{className:"box"},el("div",{className:"lab",textContent:"Project details"}),dl(["Subject",r.subject||"—"]),el("pre",{textContent:r.message})))}
 async function route(){try{const id=location.hash.slice(1);id?await detail(id):await list()}catch(e){$("#app").textContent="Error: "+e.message}}
-(async()=>{META=await api("/api/admin/meta");addEventListener("hashchange",route);route()})();
+(async()=>{META=await api("/api/admin?meta=1");addEventListener("hashchange",route);route()})();
 </script></body></html>
