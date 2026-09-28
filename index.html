@@ -9,9 +9,9 @@
 <meta property="og:description" content="Modern digital experiences across web, CMS, e-commerce and AI-assisted development.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap">
 <style>
-:root{--bg:#070707;--surface:#0e0e0e;--text:#f5f5f5;--muted:#8a8a8a;--line:rgba(255,255,255,.12);--p:#b8860b;--k:#f3d67a;--c:#d4af37;--grad:linear-gradient(100deg,#b8860b,#f3d67a 45%,#ffffff);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#000000;--surface:#0e0e0e;--text:#f5f5f5;--muted:#8a8a8a;--line:rgba(255,255,255,.12);--p:#b8860b;--k:#f3d67a;--c:#d4af37;--grad:linear-gradient(100deg,#b8860b,#f3d67a 45%,#ffffff);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth;scroll-padding-top:calc(72px + env(safe-area-inset-top,0px));height:100%}
+html{scroll-behavior:smooth;scroll-padding-top:calc(60px + env(safe-area-inset-top,0px));height:100%}
 body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.6 "Space Grotesk",system-ui,sans-serif;overflow-x:hidden}
 body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.05;background:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px);z-index:90}
 a{color:inherit;text-decoration:none}
@@ -19,7 +19,7 @@ a{color:inherit;text-decoration:none}
 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lab{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .wrap,.fluid{width:100%;max-width:none;margin:0;padding:0 80px}
-section{min-height:100vh;padding:60px 0;position:relative;display:flex;flex-direction:column;justify-content:center}
+section{padding:60px 0;position:relative;display:flex;flex-direction:column;justify-content:center}
 h1,h2,h3{margin:0;line-height:.98;letter-spacing:-.03em;font-weight:700}
 h2{font-size:clamp(34px,6vw,84px)}
 p{margin:0}
@@ -37,9 +37,9 @@ nav a:hover,nav a.on{color:var(--text)}nav a:hover::after,nav a.on::after{transf
 .btn.fill{background:var(--grad);border-color:transparent;color:#070707;font-weight:700}
 #mb{display:none;background:none;border:1px solid var(--line);color:var(--text);width:44px;height:44px;border-radius:50%;cursor:pointer}
 /* hero */
-#hero{padding:0;display:flex;align-items:center;overflow:hidden}
+#hero{padding:0;min-height:100vh;display:flex;align-items:center;overflow:hidden}
 .vid{position:absolute;inset:0;overflow:hidden}
-.vid video{position:absolute;top:0;bottom:0;right:4%;height:100%;width:auto;max-width:60%;object-fit:contain;mix-blend-mode:lighten;animation:sc 2.4s ease-out both}
+.vid video{position:absolute;top:0;bottom:0;right:4%;height:100%;width:auto;max-width:60%;object-fit:contain;mix-blend-mode:lighten;clip-path:inset(0 0 6% 0);-webkit-mask-image:linear-gradient(to bottom,#000 0 92%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0 92%,transparent 100%);animation:sc 2.4s ease-out both}
 .vid::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--bg) 20%,rgba(7,7,7,.4) 55%,transparent),linear-gradient(0deg,var(--bg),transparent 18%)}
 @keyframes sc{from{transform:scale(1.05)}to{transform:scale(1)}}
 @keyframes walk{from{transform:translateX(30vw);opacity:0}to{transform:none;opacity:.9}}
@@ -69,13 +69,8 @@ nav a:hover,nav a.on{color:var(--text)}nav a:hover::after,nav a.on::after{transf
 /* work */
 .head{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:end;margin:22px 0 60px}
 .head p{color:#b8b8b8}
-.stack{padding-bottom:20px}
-.card{position:sticky;top:calc(84px + var(--i)*14px);min-height:min(56vh,440px);margin-bottom:28px;padding:clamp(20px,3vw,40px);background:linear-gradient(135deg,var(--a),var(--surface) 55%),var(--surface);border:1px solid var(--line);border-radius:20px;display:grid;grid-template-columns:1fr 1.2fr;gap:24px;transition:box-shadow .4s}
-.card:hover{box-shadow:0 0 60px -10px var(--a)}
-.card .big{font-size:clamp(40px,7vw,104px);text-transform:uppercase;align-self:end}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .tags i{font-style:normal;font-size:12px;border:1px solid var(--line);padding:4px 12px;border-radius:99px;color:#ccc}
-.card p{color:#c4c4c4;max-width:520px;margin-top:14px}
 /* matrix */
 #tech h2{margin:22px 0 48px}
 .mx{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
@@ -128,11 +123,10 @@ footer a{display:block;color:var(--muted);font-size:14px;padding:3px 0;transitio
 nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:rgba(7,7,7,.96);padding:12px 24px;border-bottom:1px solid var(--line)}
 nav.open{display:flex}nav a{padding:16px 0;font-size:15px}
 #mb{display:block}header .btn{display:none}
-.two,.head,.cf,.card,footer .wrap{grid-template-columns:1fr}
+.two,.head,.cf,footer .wrap{grid-template-columns:1fr}
 .stats{grid-template-columns:repeat(2,1fr)}
 .fr{margin:0 auto}
 .s7,.s5,.s4,.s8{grid-column:span 12}
-.card{position:relative;top:auto;min-height:0}
 .tl .ln,.tl .fill{left:14px}.it{grid-template-columns:30px 1fr;gap:6px 14px}.it .y{grid-column:2;text-align:left;font-size:20px}.it .d{grid-row:1/3;margin:6px 0 0 7px}.it>div:last-child{grid-column:2}
 
 }
@@ -144,23 +138,8 @@ nav.open{display:flex}nav a{padding:16px 0;font-size:15px}
 #mb{border:1px solid var(--c);border-radius:0}
 .chip,.tags i{border:1px solid rgba(212,175,55,.45);border-radius:0}
 .tl .fill{transition:transform .3s}
-.fw .tk{display:flex;gap:14px;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--muted);font:500 15px "Space Grotesk",sans-serif;padding:clamp(7px,1.3vh,12px) 12px;cursor:pointer;transition:color .3s,padding .3s,border-color .3s}
-.tk span{font-size:12px;letter-spacing:.1em;opacity:.7}
-.tk:hover,.tk[aria-selected="true"]{color:var(--text)}
-.tk[aria-selected="true"]{border-bottom-color:var(--c);padding-left:20px;box-shadow:inset 2px 0 var(--c)}
-.stk{border-top:1px solid var(--line)}
-.xp{border:1px solid var(--c);padding:clamp(20px,2.6vw,36px);display:grid;grid-template-columns:1.3fr 1fr;gap:28px;background:linear-gradient(135deg,var(--a,rgba(212,175,55,.2)),rgba(0,0,0,.4) 60%)}
-.xp>*{animation:xin .45s ease both}
 @keyframes xin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.xp h3{font-size:clamp(30px,4.4vw,68px);text-transform:uppercase;margin:10px 0 14px}
-.xp p{color:#c4c4c4;max-width:460px}
-.km{border:1px solid var(--line);padding:18px;align-self:start;display:grid;gap:12px}
-.km div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px;font-size:13px}
-.km div b{font-weight:500;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-size:11px}
 @media (min-width:901px){
-html{scroll-snap-type:y mandatory;scroll-padding-top:0}
-section{height:100vh;min-height:600px;scroll-snap-align:start}
-footer{scroll-snap-align:end}
 #hero{padding:60px 0;clip-path:inset(0)}
 .vid{position:fixed}
 #hero .in{max-width:900px;padding-top:0}
@@ -174,8 +153,6 @@ h2{font-size:clamp(26px,3.6vw,56px)}
 .frame{display:flex}
 .fr{aspect-ratio:auto;flex:1;height:auto;max-width:460px;margin-left:auto;min-height:0}
 .fr img{position:absolute;inset:14px;width:calc(100% - 28px);height:calc(100% - 28px);object-fit:cover;object-position:50% 12%}
-#work .head{margin:12px 0 22px;gap:32px}
-.fw{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:stretch}
 #tech h2{margin:12px 0 22px}
 .cell{padding:20px 24px}
 .cell h3{font-size:clamp(18px,1.8vw,26px);margin:4px 0 12px}
@@ -192,7 +169,40 @@ h2{font-size:clamp(26px,3.6vw,56px)}
 form{padding:clamp(16px,2.2vw,28px);gap:14px}
 .f textarea{min-height:80px}
 }
-@media (max-width:900px){.fw{grid-template-columns:1fr;gap:18px}.xp{grid-template-columns:1fr}.stk{display:flex;flex-wrap:wrap}.fw .tk{width:auto;border:1px solid var(--line)}}
+.tenure{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 24px;border:1px solid var(--c);padding:12px 18px;margin:0 0 22px;max-width:880px}
+.tenure b{font-size:clamp(22px,2.4vw,34px);letter-spacing:-.02em}
+.tenure span:not(.lab){color:#c4c4c4;font-size:14px}
+@media (min-width:901px){.tenure{margin-left:120px}}
+/* ===== profile frame: gold border draws anticlockwise on hover ===== */
+.ring{position:absolute;left:-1px;top:-1px;pointer-events:none;z-index:3;overflow:visible;transform:scaleX(-1);filter:drop-shadow(0 0 6px rgba(212,175,55,.5))}
+.ring rect{fill:none;stroke:url(#gold);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.15s cubic-bezier(.65,0,.35,1)}
+.frame:hover .ring rect,.frame:focus-within .ring rect{stroke-dashoffset:0}
+
+/* ===== featured work: real projects ===== */
+#work .head{margin:22px 0 64px}
+.pw{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(32px,5vw,90px);align-items:start}
+.plist{border-top:1px solid var(--line)}
+.pr{position:relative;display:grid;grid-template-columns:56px 1fr auto 44px;align-items:center;gap:16px;padding:26px 12px;border-bottom:1px solid var(--line);color:var(--muted);transition:color .35s,padding .35s,background .35s,opacity .35s}
+.pr::before{content:"";position:absolute;left:0;top:-1px;bottom:-1px;width:2px;background:var(--grad);transform:scaleY(0);transition:transform .35s}
+.pr .n{font-size:12px;letter-spacing:.12em}
+.pr .nm{font-size:clamp(22px,2.7vw,40px);font-weight:700;letter-spacing:-.02em;line-height:1.05;text-transform:uppercase}
+.pr .ct{font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-align:right}
+.pr .ar svg{width:22px;height:22px;transition:transform .35s;margin-left:auto;display:block}
+.plist:hover .pr:not(.on){opacity:.4}
+.pr.on{color:var(--text);padding-left:26px;background:linear-gradient(90deg,rgba(212,175,55,.09),transparent 70%)}
+.pr.on::before{transform:scaleY(1)}
+.pr.on .nm{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pr.on .ar svg{transform:translate(4px,-4px);color:var(--c)}
+.pv{position:sticky;top:calc(84px + env(safe-area-inset-top,0px));border:1px solid var(--c);background:linear-gradient(160deg,rgba(212,175,55,.1),#000 55%)}
+.pv>*{animation:xin .45s ease both}
+@keyframes xin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.art{position:relative;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);display:grid;place-items:center;background:radial-gradient(60% 70% at 50% 45%,rgba(212,175,55,.22),transparent 70%),repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 32px),repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,transparent 1px 32px)}
+.art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+.mono{font-size:clamp(70px,9vw,150px);font-weight:700;letter-spacing:-.05em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.art .lab{position:absolute;text-shadow:0 1px 8px #000}.tl1{top:14px;left:16px}.br1{bottom:12px;right:16px}
+.meta{padding:clamp(20px,2.4vw,32px);display:grid;gap:14px;justify-items:start}
+.meta h3{font-size:clamp(28px,3.4vw,52px);text-transform:uppercase}
+@media (max-width:900px){.pw{grid-template-columns:1fr}.pv{display:none}.pr{grid-template-columns:34px 1fr 28px;padding:20px 4px}.pr .ct{grid-column:2;grid-row:2;text-align:left}.pr .ar{grid-column:3;grid-row:1/3}.pr.on{padding-left:4px;background:none}.pr.on::before{display:none}.plist:hover .pr:not(.on){opacity:1}}
 </style>
 </head>
 <body>
@@ -237,6 +247,7 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 <div class="frame" id="frame"><div class="fr" id="fr">
 <!-- PROFILE IMAGE: replace images/tanisha-profile.jpg -->
 <img src="images/tanisha-profile.jpg" width="941" height="1672" alt="Tanisha Sharma, Full Stack Developer" loading="lazy">
+<svg class="ring" id="ring" aria-hidden="true" focusable="false"><defs><linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#b8860b"/><stop offset=".5" stop-color="#f3d67a"/><stop offset="1" stop-color="#ffffff"/></linearGradient></defs><rect pathLength="1"/></svg>
 <small class="lab">Tanisha Sharma</small>
 </div></div>
 </div>
@@ -246,7 +257,7 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 <span class="lab">03 / Featured work</span>
 <div class="head"><h2 class="g">SELECTED WORK — ENGINEERED VALUE</h2>
 <p>These projects show practical engineering: scalable architecture, CMS expertise, custom development and digital solutions built around business goals.</p></div>
-<div class="fw"><div class="stk" id="stk" role="tablist" aria-label="Tech stack"></div><article class="xp" id="xp" role="tabpanel"></article></div>
+<div class="pw"><div class="plist" id="plist"></div><aside class="pv" id="pv" aria-live="polite"></aside></div>
 </div></section>
 
 <section id="tech"><div class="wrap">
@@ -258,6 +269,7 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 <section id="exp"><div class="wrap">
 <span class="lab">05 / Experience</span>
 <h2 class="g">THE ROAD SO FAR</h2>
+<div class="tenure" id="tenure"></div>
 <div class="tl" id="tl"><div class="ln"></div><div class="fill" id="fill"></div></div>
 </div></section>
 
@@ -287,28 +299,67 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 
 <script>
 /* ===== CONFIG: edit everything here ===== */
+/* EXPERIENCE: joined Abacudesk on 1 April 2024. Change JOINED only if the date changes. */
+const JOINED=new Date(2024,3,1);
+function tenure(){const n=new Date();let m=(n.getFullYear()-JOINED.getFullYear())*12+(n.getMonth()-JOINED.getMonth());if(n.getDate()<JOINED.getDate())m--;m=Math.max(m,0);return{y:Math.floor(m/12),m:m%12}}
+const EXP=tenure();
 const CFG={
  email:"hello@yourdomain.com",        // REPLACE
  phone:"+00 00000 00000",             // REPLACE
  social:{GitHub:"https://github.com/", LinkedIn:"https://linkedin.com/", Email:"mailto:hello@yourdomain.com"}, // REPLACE
  status:["Available for freelance","Open to collaboration"],
- stats:[[1200,"+","Problems solved"],[80,"+","MCA ranking"],[40,"+","Industry-grade projects"],[2,"+","Years experience"]],
- cards:[
-  ["Shopify","#d4af37","Custom themes, storefront builds and integrations, tuned for speed and conversion.",["Shopify","Liquid","JavaScript","APIs","Custom themes","E-commerce"]],
-  ["Python","#f3d67a","Scripting, automation and backend logic for data-driven tools.",["Python","Automation","APIs","Scripting"]],
-  ["React","#b8860b","Component-driven interfaces and interactive web applications.",["React","Hooks","State","Components"]],
-  ["Node.js","#ffffff","REST APIs and server-side services that connect the front end to real data.",["Node.js","Express","REST","MongoDB"]],
-  ["WordPress","#c9a227","Custom themes, plugins and WooCommerce builds for content-led sites.",["WordPress","WooCommerce","PHP","Themes"]],
-  ["Drupal","#e6c35c","Content architecture, custom modules and Twig theming on Drupal.",["Drupal","Twig","Modules","CMS"]],
-  ["Laravel","#a67c00","MVC backends with clean routing, Eloquent models and auth.",["Laravel","PHP","MVC","MySQL"]],
-  ["PHP","#f0e6c8","Server-side development behind CMS and custom applications.",["PHP","MySQL","OOP","APIs"]],
-  ["Custom Twig","#d4af37","Bespoke Twig templates and component theming for Drupal and beyond.",["Twig","Templates","Theming","Drupal"]]],
+ stats:[[1200,"+","Problems solved"],[80,"+","MCA ranking"],[40,"+","Industry-grade projects"],(EXP.y>=1?[EXP.y,"+","Years experience"]:[EXP.m,"+","Months experience"])],
+ /* FEATURED WORK: [name, url, category, optional screenshot path]
+    To add a real preview, save a compressed image (about 1200px wide, under 150 KB) as images/projects/<name>.jpg
+    and put that path as the 4th value, e.g. ["Elite Cranes","https://elitecranes.com/","Manufacturing","images/projects/elite-cranes.jpg"].
+    Only the hovered project's image is loaded. Categories are editable. */
+ projects:[
+  ["Prayag India","https://prayagindia.com/","Corporate website"],
+  ["JK Maxx Paints","https://jkmaxxpaints.com/","Manufacturing"],
+  ["Polymedicure","https://www.polymedicure.com/","Medical devices"],
+  ["Metro Hospital Faridabad","https://metrohospitalfaridabad.com/","Healthcare"],
+  ["Accord Hospitals","https://accordhospitals.co.in/","Healthcare"],
+  ["Indus Food Manufacturing","https://indusfoodmanufacturing.co.in/","Food manufacturing"],
+  ["Elite Cranes","https://elitecranes.com/","Industrial"],
+  ["Braking System","https://brakingsystem.andhitech.in/","Automotive"],
+  ["Action Tesa eMart","https://emart.actiontesa.com/password","E-commerce"],
+  ["Sharp Coating","https://sharpcoating.com/","Industrial"],
+  ["Boutique International","https://boutiqueintl.com/","Corporate website"],
+  ["Satyug","https://www.satyug.edu.in/","Education"],
+  ["Street Jam","https://street-jam.com/","Corporate website"],
+  ["Saru Aikoh","https://saruaikoh.com/","Corporate website"],
+  ["SW India","https://www.sw-india.com/","Corporate website"],
+  ["Imperial Auto","https://imperialauto.com/","Automotive"],
+  ["Jindal Electric","https://jindalelectric.in/","Electrical"],
+  ["UC Industries","https://ucindustries.in/","Industrial"],
+  ["Sidharth Automat","https://sidharthautomatindia.com/","Industrial"],
+  ["India Forge","https://indiaforge.in/","Industrial"],
+  ["Delton Cables","https://www.deltoncables.com/","Electrical"],
+  ["Tuffbull","https://tuffbull.com/","Corporate website"],
+  ["Autokoi","https://www.autokoi.com/","Automotive"],
+  ["Veritech","https://veritech.in/","Corporate website"],
+  ["NV Group","https://www.nvgroup.co.in/","Corporate website"],
+  ["Nurture Right","https://nurtureright.in/","Corporate website"],
+  ["DEMAC","https://demac.in/","Corporate website"],
+  ["Nirotech India","https://nirotechindia.co.in/","Corporate website"],
+  ["Peggs India","https://peggsindia.com/","Corporate website"],
+  ["Zach Official","https://zachofficial.com/","Corporate website"],
+  ["Jaipur Golden","https://jaipurgolden.in/","Corporate website"],
+  ["Munjal Kiriu","http://munjalkiriu.co.in","Manufacturing"],
+  ["Vitromed Healthcare","http://vitromedhealthcare.com/","Healthcare"],
+  ["Fujigemco","http://fujigemco.com/","Corporate website"],
+  ["Ionotronics","http://ionotronics.in/","Corporate website"],
+  ["Global Medikit","http://globalmedikit.in/","Healthcare"],
+  ["Apparel Deck","https://appareldeck.com/","Apparel"],
+  ["Polymedicure IFU","https://ifu.polymedicure.com/","Medical devices"],
+  ["Lifelong Med","http://lifelongmed.com/","Healthcare"],
+  ["Aica Sunmica","https://aicasunmica.com/","Manufacturing"]],
  matrix:[
   ["s7","Full stack",[["React"],["Next.js"],["Node.js"],["Python"],["PHP"],["Laravel"],["JavaScript"],["TypeScript"],["MongoDB"],["MySQL"],["REST APIs"]]],
   ["s5","CMS / Commerce",[["Shopify"],["WordPress"],["Drupal"],["Twig"],["Liquid"],["WooCommerce"]]],
   ["s4","AI / Automation",[["Local AI builders"],["Claude Code"],["MCP"],["CLI workflows"],["AI-assisted development"],["Prompt-driven development"],["Automation"]]],
   ["s8","Infrastructure / Systems",[["AWS","Stage 1 certified"],["Server knowledge","working"],["Configuration servers","working"],["Environment management","working"],["Deployment workflows","working"],["Git"],["API architecture"],["DevOps concepts","basic"]]]],
- tl:[["2024","WordPress","Practical experience with WordPress development and CMS-based projects."],["2024","Drupal","Drupal architecture, content management, customization and development workflows."],["2024–2025","Shopify","Custom themes, e-commerce workflows and storefront customization."],["2025","Laravel","Backend development and MVC architecture with Laravel and PHP."],["2025","Next.js","Modern React-based application development."],["2025","React","Component-driven frontend and interactive web apps."],["2025","MongoDB","NoSQL concepts, data modeling and integration."],["2025–2026","Configuration / Server knowledge","Environment configuration, deployment concepts and infrastructure fundamentals."],["2026","AI builds","AI-assisted development with Claude Code, MCP, CLI workflows, local AI builders and automation."]]
+ tl:[["APR 2024","Abacudesk","Joined Abacudesk on 1 April 2024. Professional experience is counted from this date."],["2024","WordPress","Practical experience with WordPress development and CMS-based projects."],["2024","Drupal","Drupal architecture, content management, customization and development workflows."],["2024–2025","Shopify","Custom themes, e-commerce workflows and storefront customization."],["2025","Laravel","Backend development and MVC architecture with Laravel and PHP."],["2025","Next.js","Modern React-based application development."],["2025","React","Component-driven frontend and interactive web apps."],["2025","MongoDB","NoSQL concepts, data modeling and integration."],["2025–2026","Configuration / Server knowledge","Environment configuration, deployment concepts and infrastructure fundamentals."],["2026","AI builds","AI-assisted development with Claude Code, MCP, CLI workflows, local AI builders and automation."]]
 };
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -318,19 +369,23 @@ $$("[data-arrow]").forEach(b=>b.insertAdjacentHTML("beforeend",ARROW));
 $("#h1").innerHTML="A BUILD DIGITAL EXPERIENCES".split(" ").map((w,i)=>`<span class="w g" aria-hidden="true" style="animation-delay:${.3+i*.14}s">${w}</span>`).join(" ");
 /* stats */
 $("#stats").innerHTML=CFG.stats.map(s=>`<div><b class="g" data-n="${typeof s[0]==="number"?s[0]:""}" data-s="${s[1]}">${s[0]}${s[1]}</b><span>${s[2]}</span></div>`).join("");
-/* cards */
-const MET=[[["Focus","Custom themes"],["Layer","Liquid + JS"],["Scope","Storefront to integrations"]],[["Focus","Automation"],["Layer","Scripting + APIs"],["Scope","Data-driven tools"]],[["Focus","UI engineering"],["Layer","Components + hooks"],["Scope","Interactive web apps"]],[["Focus","REST APIs"],["Layer","Express + MongoDB"],["Scope","Server-side services"]],[["Focus","Custom themes"],["Layer","PHP + WooCommerce"],["Scope","Content-led sites"]],[["Focus","Content architecture"],["Layer","Modules + Twig"],["Scope","Structured CMS builds"]],[["Focus","MVC backends"],["Layer","Eloquent + auth"],["Scope","Custom applications"]],[["Focus","Server-side logic"],["Layer","OOP + MySQL"],["Scope","CMS and custom apps"]],[["Focus","Template systems"],["Layer","Twig components"],["Scope","Drupal theming"]]];
-const stk=$("#stk"),xp=$("#xp");
-stk.innerHTML=CFG.cards.map((c,i)=>`<button class="tk" role="tab" id="tk${i}" aria-controls="xp" aria-selected="false" data-i="${i}"><span>${String(i+1).padStart(2,"0")}</span>${c[0]}</button>`).join("");
-function show(i){const c=CFG.cards[i];xp.style.setProperty("--a",c[1]+"33");xp.setAttribute("aria-labelledby","tk"+i);
- xp.innerHTML=`<div><span class="lab">${String(i+1).padStart(2,"0")} / ${c[0]}</span><h3 class="g">${c[0]}</h3><p>${c[2]}</p><div class="tags">${c[3].map(t=>`<i>${t}</i>`).join("")}</div></div><div class="km"><span class="lab">Key expertise</span>${MET[i].map(m=>`<div><b>${m[0]}</b><span>${m[1]}</span></div>`).join("")}<a class="btn" href="#contact">Discuss a project ${ARROW}</a></div>`;
- stk.querySelectorAll(".tk").forEach((b,j)=>b.setAttribute("aria-selected",j===i))}
-const pick=e=>{const b=e.target.closest(".tk");if(b&&b.getAttribute("aria-selected")!=="true")show(+b.dataset.i)};
-stk.addEventListener("click",pick);stk.addEventListener("mouseover",pick);show(0);
+/* featured work: project list + hover preview */
+const plist=$("#plist"),pv=$("#pv"),PJ=CFG.projects,esc=t=>t.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const host=u=>new URL(u).hostname.replace(/^www\./,"");
+const ini=n=>{const w=n.split(/\s+/);return (w.length>1?w[0][0]+w[1][0]:n.slice(0,2)).toUpperCase()};
+plist.innerHTML=PJ.map((p,i)=>`<a class="pr" href="${esc(p[1])}" target="_blank" rel="noopener noreferrer" data-i="${i}" aria-label="${esc(p[0])}, ${esc(p[2])}. Opens ${esc(host(p[1]))} in a new tab"><span class="n">${String(i+1).padStart(2,"0")}</span><span class="nm">${esc(p[0])}</span><span class="ct">${esc(p[2])}</span><span class="ar">${ARROW}</span></a>`).join("");
+let cur=-1;
+function showP(i){if(i===cur)return;cur=i;const p=PJ[i],art=p[3]?`<img src="${esc(p[3])}" alt="${esc(p[0])} homepage preview" width="1200" height="750" loading="lazy" decoding="async" onerror="this.replaceWith(Object.assign(document.createElement('b'),{className:'mono',textContent:'${ini(p[0])}'}))">`:`<b class="mono">${ini(p[0])}</b>`;
+ pv.innerHTML=`<div class="art">${art}<span class="lab tl1">${esc(host(p[1]))}</span><span class="lab br1">${String(i+1).padStart(2,"0")} / ${PJ.length}</span></div><div class="meta"><span class="lab">${esc(p[2])}</span><h3 class="g">${esc(p[0])}</h3><a class="btn" href="${esc(p[1])}" target="_blank" rel="noopener noreferrer">View project ${ARROW}</a></div>`;
+ plist.querySelectorAll(".pr").forEach((r,j)=>r.classList.toggle("on",j===i))}
+const pk=e=>{const r=e.target.closest(".pr");if(r)showP(+r.dataset.i)};
+plist.addEventListener("mouseover",pk);plist.addEventListener("focusin",pk);showP(0);
 /* matrix */
 $("#mx").innerHTML=CFG.matrix.map(m=>`<div class="cell ${m[0]}"><span class="lab">${m[0]==="s7"?"Core":m[0]==="s5"?"Platforms":m[0]==="s4"?"Workflow":"Ops"}</span><h3>${m[1]}</h3>${m[2].map(t=>`<span class="chip">${t[0]}${t[1]?`<em>${t[1]}</em>`:""}</span>`).join("")}</div>`).join("");
 /* timeline */
 $("#tl").insertAdjacentHTML("beforeend",CFG.tl.map(t=>`<div class="it"><div class="y">${t[0]}</div><div class="d"></div><div><h3>${t[1]}</h3><p>${t[2]}</p></div></div>`).join(""));
+/* experience summary bar (computed from JOINED) */
+$("#tenure").innerHTML=`<b class="g">${EXP.y>=1?EXP.y+"+ YEARS":EXP.m+" MONTHS"}</b><span>at Abacudesk, since 1 April 2024</span><span class="lab">${EXP.y} yr${EXP.y===1?"":"s"} ${EXP.m} mo so far</span>`;
 /* contact/footer */
 $("#status").innerHTML=CFG.status.map(s=>`<span>${s}</span>`).join("");
 $("#fmail").innerHTML=`<a href="mailto:${CFG.email}">${CFG.email}</a>`;$("#fphone").textContent=CFG.phone;
@@ -361,6 +416,10 @@ if(matchMedia("(hover:hover) and (pointer:fine)").matches&&!RM){
  frame.addEventListener("mousemove",e=>{const r=frame.getBoundingClientRect();tx=(e.clientX-r.left)/r.width*2-1;ty=(e.clientY-r.top)/r.height*2-1;kick()});
  frame.addEventListener("mouseleave",()=>{tx=ty=0;kick()});
 }
+/* profile ring: size the SVG rect to the frame so the stroke travels the full perimeter */
+(function(){const ring=$("#ring"),rc=ring.querySelector("rect");
+ function size(){const w=fr.offsetWidth,h=fr.offsetHeight;ring.setAttribute("width",w);ring.setAttribute("height",h);ring.setAttribute("viewBox",`0 0 ${w} ${h}`);rc.setAttribute("x",1);rc.setAttribute("y",1);rc.setAttribute("width",w-2);rc.setAttribute("height",h-2)}
+ size();if("ResizeObserver"in window)new ResizeObserver(size).observe(fr);else addEventListener("resize",size)})();
 /* custom cursor */
 if(matchMedia("(hover:hover) and (pointer:fine)").matches){
  const d=$("#cd"),r=$("#cr");let x=0,y=0,rx=0,ry=0;
