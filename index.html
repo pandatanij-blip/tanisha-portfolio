@@ -102,6 +102,19 @@ form{display:grid;gap:20px;border:1px solid var(--line);padding:clamp(20px,3vw,4
 .f label{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .f input,.f textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--text);font:inherit;padding:10px 0;transition:border-color .3s}
 .f textarea{min-height:110px;resize:vertical}
+.f label b{color:var(--c)}
+.dd{position:relative}
+.ddb{width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;background:transparent;border:0;border-bottom:1px solid var(--line);color:var(--muted);font:inherit;padding:10px 0;text-align:left;cursor:pointer;transition:border-color .3s}
+.ddb.has{color:var(--text)}.ddb svg{width:16px;height:16px;flex:none;color:var(--c);transition:transform .3s}
+.ddb[aria-expanded=true] svg{transform:rotate(180deg)}
+.ddb:focus,.ddb[aria-expanded=true]{outline:0;border-color:var(--c);box-shadow:0 1px 0 var(--c)}
+.ddl{position:absolute;z-index:20;left:0;right:0;top:100%;margin:6px 0 0;padding:6px;list-style:none;max-height:260px;overflow-y:auto;background:#0b0b0b;border:1px solid var(--c);box-shadow:0 18px 40px rgba(0,0,0,.7)}
+.ddl[hidden]{display:none}
+.ddl li{padding:10px 12px;font-size:14px;color:#ccc;cursor:pointer;border-left:2px solid transparent}
+.ddl li:hover,.ddl li.act{background:rgba(212,175,55,.1);color:var(--text);border-left-color:var(--c)}
+.ddl li[aria-selected=true]{color:var(--k)}
+.f.bad .ddb{border-color:#ff6b8b}
+#of[hidden]{display:none}
 .f input:focus,.f textarea:focus{outline:0;border-color:var(--c);box-shadow:0 1px 0 var(--c)}
 .f .er{color:#ff6b8b;font-size:12px;min-height:16px;margin-top:4px}
 .f.bad input,.f.bad textarea{border-color:#ff6b8b}
@@ -313,6 +326,13 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 <form id="form" novalidate>
 <div class="f"><label for="n">Name</label><input id="n" name="name" autocomplete="name"><div class="er" aria-live="polite"></div></div>
 <div class="f"><label for="e">Email</label><input id="e" name="email" type="email" autocomplete="email"><div class="er" aria-live="polite"></div></div>
+<div class="f"><label for="ph">Phone <span style="text-transform:none;letter-spacing:0">(optional)</span></label><input id="ph" name="phone" type="tel" autocomplete="tel" data-opt><div class="er" aria-live="polite"></div></div>
+<div class="f"><label id="svl" for="svb">What can I help you with? <b>*</b></label>
+<div class="dd" id="dd"><input type="hidden" name="service" id="sv">
+<button type="button" id="svb" class="ddb" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="svl svb"><span>Select a service</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></button>
+<ul class="ddl" role="listbox" aria-labelledby="svl" hidden></ul></div><div class="er" aria-live="polite"></div></div>
+<div class="f" id="of" hidden><label for="od">Tell me what you have in mind</label><input id="od" name="serviceOtherDetails" data-opt maxlength="500"><div class="er" aria-live="polite"></div></div>
+<div class="f"><label for="sj">Subject</label><input id="sj" name="subject" maxlength="150"><div class="er" aria-live="polite"></div></div>
 <div class="f"><label for="m">Message</label><textarea id="m" name="message"></textarea><div class="er" aria-live="polite"></div></div>
 <button class="btn fill" type="submit" data-arrow style="justify-self:start">Send transmission</button>
 <div id="ok" role="status"></div>
@@ -471,17 +491,45 @@ if(matchMedia("(hover:hover) and (pointer:fine)").matches){
 /* contact form */
 const form=$("#form");
 function chk(el){const v=el.value.trim();let m="";
- if(!v)m="This field is required.";
+ if(!v&&el.dataset.opt!==undefined)m="";
+ else if(!v)m=el.name==="service"?"Please select a service.":"This field is required.";
+ else if(el.name==="phone"&&!/^\+?[\d\s()-]{7,18}$/.test(v))m="Enter a valid phone number.";
  else if(el.name==="email"&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))m="Enter a valid email address.";
  else if(el.name==="message"&&v.length<10)m="Message needs at least 10 characters.";
  const f=el.closest(".f");f.classList.toggle("bad",!!m);f.querySelector(".er").textContent=m;el.setAttribute("aria-invalid",!!m);return !m}
 form.querySelectorAll("input,textarea").forEach(el=>el.addEventListener("blur",()=>chk(el)));
+/* service dropdown */
+const SERVICES=[["website-development","Website Development"],["corporate-website","Business / Corporate Website"],["ecommerce","E-commerce Website"],["wordpress","WordPress Development"],["shopify","Shopify Development"],["website-redesign","Website Redesign / Revamp"],["web-application","Custom Web Application"],["landing-page","Landing Page"],["maintenance","Website Maintenance / Support"],["ai-automation","AI Automation / AI Integration"],["optimization","Website Performance / SEO / Optimization"],["other","Other / Not Sure"]];
+(function(){const b=$("#svb"),l=$("#dd .ddl"),h=$("#sv"),o=$("#of");let a=-1;
+ l.innerHTML=SERVICES.map((x,i)=>`<li role="option" id="so${i}" data-v="${x[0]}" aria-selected="false">${x[1]}</li>`).join("");
+ const li=[...l.children];
+ const open=v=>{l.hidden=!v;b.setAttribute("aria-expanded",v);if(v){a=Math.max(li.findIndex(x=>x.dataset.v===h.value),0);mark()}};
+ const mark=()=>{li.forEach((x,i)=>x.classList.toggle("act",i===a));b.setAttribute("aria-activedescendant","so"+a);li[a].scrollIntoView({block:"nearest"})};
+ const pick=i=>{h.value=SERVICES[i][0];b.firstElementChild.textContent=SERVICES[i][1];b.classList.add("has");li.forEach((x,k)=>x.setAttribute("aria-selected",k===i));o.hidden=h.value!=="other";chk(h);open(false)};
+ b.addEventListener("click",()=>open(l.hidden));
+ l.addEventListener("click",e=>{const t=e.target.closest("li");if(t)pick(li.indexOf(t))});
+ b.addEventListener("keydown",e=>{
+  if(["ArrowDown","ArrowUp"].includes(e.key)){e.preventDefault();if(l.hidden)open(true);else{a=(a+(e.key==="ArrowDown"?1:-1)+li.length)%li.length;mark()}}
+  else if((e.key==="Enter"||e.key===" ")&&!l.hidden){e.preventDefault();pick(a)}
+  else if(e.key==="Escape")open(false)});
+ document.addEventListener("click",e=>{if(!e.target.closest("#dd"))open(false)});
+ b.addEventListener("blur",()=>setTimeout(()=>{if(!$("#dd").contains(document.activeElement))open(false)},120));
+ form.addEventListener("reset",()=>{b.firstElementChild.textContent="Select a service";b.classList.remove("has");o.hidden=true;li.forEach(x=>x.setAttribute("aria-selected","false"))});
+})();
 form.addEventListener("submit",async e=>{e.preventDefault();
- const ok=[...form.querySelectorAll("input,textarea")].map(chk).every(Boolean);
- if(!ok){$("#ok").textContent="";return}
- // TODO: connect to your API/email service here, e.g. await fetch("/api/contact",{method:"POST",body:JSON.stringify(Object.fromEntries(new FormData(form)))})
- await new Promise(r=>setTimeout(r,400));
- form.reset();$("#ok").textContent="Message sent. I'll reply soon."});
+ const fields=[...form.querySelectorAll("input,textarea")].filter(el=>!el.closest("[hidden]"));
+ const ok=fields.map(chk).every(Boolean);
+ if(!ok){$("#ok").textContent="";const bad=form.querySelector(".f.bad input,.f.bad textarea,.f.bad button");if(bad)bad.focus();return}
+ const data=Object.fromEntries(new FormData(form));
+ if(data.service!=="other")delete data.serviceOtherDetails;
+ const btn=form.querySelector("[type=submit]");btn.disabled=true;$("#ok").textContent="Sending…";
+ try{
+  const r=await fetch(CFG.api||"/api/contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j.error||"Something went wrong.");
+  form.reset();$("#ok").textContent="Message sent. I'll reply soon."
+ }catch(err){$("#ok").textContent=err.message||"Could not send. Please try again."}
+ btn.disabled=false});
 </script>
 </body>
 </html>
