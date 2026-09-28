@@ -203,6 +203,35 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 .meta{padding:clamp(20px,2.4vw,32px);display:grid;gap:14px;justify-items:start}
 .meta h3{font-size:clamp(28px,3.4vw,52px);text-transform:uppercase}
 @media (max-width:900px){.pw{grid-template-columns:1fr}.pv{display:none}.pr{grid-template-columns:34px 1fr 28px;padding:20px 4px}.pr .ct{grid-column:2;grid-row:2;text-align:left}.pr .ar{grid-column:3;grid-row:1/3}.pr.on{padding-left:4px;background:none}.pr.on::before{display:none}.plist:hover .pr:not(.on){opacity:1}}
+
+/* ===== Technology Matrix: roomy layout ===== */
+#tech{padding:clamp(90px,12vh,140px) 0;display:block}
+#tech h2{margin:18px 0 clamp(40px,6vh,72px)}
+#tech .cell{padding:clamp(28px,3vw,44px);min-height:250px;display:flex;flex-direction:column;align-items:flex-start}
+#tech .cell h3{font-size:clamp(22px,2.4vw,34px);margin:14px 0 8px;line-height:1.05}
+#tech .sub{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+#tech .cell p{color:#b8b8b8;font-size:15px;line-height:1.65;max-width:56ch}
+#tech .cell h3+p{margin-top:12px}
+#tech .chips{margin-top:26px}
+#tech .chip{padding:7px 14px;font-size:13px;margin:0 8px 8px 0}
+.s6{grid-column:span 6}.s12{grid-column:span 12}
+@media (max-width:900px){.s6,.s12{grid-column:span 12}#tech .cell{min-height:0;padding:26px 22px}}
+
+/* ===== Experience: roomy editorial rhythm ===== */
+#exp{padding:clamp(90px,12vh,140px) 0;display:block}
+#exp h2{margin:18px 0 clamp(36px,5vh,60px)}
+#exp .tenure{margin-bottom:clamp(32px,5vh,56px)}
+#exp .it h3{margin-bottom:8px}
+#exp .it p{max-width:60ch}
+@media (min-width:901px){
+#exp .tl{max-width:920px}
+#exp .tl .ln,#exp .tl .fill{left:180px}
+#exp .it{grid-template-columns:160px 40px 1fr;align-items:start;padding:clamp(20px,3.2vh,34px) 0}
+#exp .it .y{font-size:clamp(17px,1.7vw,24px);white-space:nowrap;padding-top:2px}
+#exp .it h3{font-size:clamp(18px,1.8vw,26px)}
+#exp .it p{font-size:15px;line-height:1.6}
+#exp .it .d{margin:8px auto 0}
+}
 </style>
 </head>
 <body>
@@ -226,8 +255,8 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 <div class="fluid"><div class="in">
 <span class="lab late" style="animation-delay:.2s">Web developer portfolio</span>
 <h1 id="h1" aria-label="A BUILD DIGITAL EXPERIENCES"></h1>
-<h2 class="late g" style="animation-delay:1.1s">FULL STACK DEVELOPER. READY FOR FREELANCING. AWS KNOWLEDGE (STAGE 1 CERTIFIED)</h2>
-<p class="late" style="animation-delay:1.3s">I build full stack products with modern web technologies, from CMS and e-commerce to custom React and Node applications. I solve problems methodically and design for scale. Open to freelance client work, and exploring AI-assisted development.</p>
+<h2 class="late g" style="animation-delay:1.1s">FULL STACK DEVELOPER. AWS KNOWLEDGE (STAGE 1 CERTIFIED)</h2>
+<p class="late" style="animation-delay:1.3s">I build full stack products with modern web technologies, from CMS and e-commerce to custom React and Node applications. I solve problems methodically and design for scale. Open to client work and collaboration, and exploring AI-assisted development.</p>
 <div class="row late" style="animation-delay:1.5s">
 <a class="btn fill" href="#work" data-arrow>Explore my work</a>
 <!-- RESUME: place your file at public/resume.pdf -->
@@ -261,8 +290,8 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 </div></section>
 
 <section id="tech"><div class="wrap">
-<span class="lab">04 / Tech matrix</span>
-<h2 class="g">THE TECHNOLOGY MATRIX</h2>
+<span class="lab">04 / Technology matrix</span>
+<h2 class="g">TECHNOLOGY MATRIX</h2>
 <div class="mx" id="mx"></div>
 </div></section>
 
@@ -278,7 +307,7 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 <div class="cf">
 <div>
 <h2 class="g">INITIALIZE TRANSMISSION</h2>
-<p style="color:#b8b8b8;margin-top:22px;max-width:480px">Recruiters, agencies, startups and clients: tell me about your freelance project, collaboration or build. I read every message.</p>
+<p style="color:#b8b8b8;margin-top:22px;max-width:480px">Recruiters, agencies, startups and clients: tell me about your project, collaboration or build. I read every message.</p>
 <div class="st" id="status"></div>
 </div>
 <form id="form" novalidate>
@@ -307,7 +336,7 @@ const CFG={
  email:"hello@yourdomain.com",        // REPLACE
  phone:"+00 00000 00000",             // REPLACE
  social:{GitHub:"https://github.com/", LinkedIn:"https://linkedin.com/", Email:"mailto:hello@yourdomain.com"}, // REPLACE
- status:["Available for freelance","Open to collaboration"],
+ status:["Available for new projects","Open to collaboration"],
  stats:[[1200,"+","Problems solved"],[80,"+","MCA ranking"],[40,"+","Industry-grade projects"],(EXP.y>=1?[EXP.y,"+","Years experience"]:[EXP.m,"+","Months experience"])],
  /* FEATURED WORK: [name, url, category, optional screenshot path]
     To add a real preview, save a compressed image (about 1200px wide, under 150 KB) as images/projects/<name>.jpg
@@ -355,11 +384,24 @@ const CFG={
   ["Lifelong Med","http://lifelongmed.com/","Healthcare"],
   ["Aica Sunmica","https://aicasunmica.com/","Manufacturing"]],
  matrix:[
-  ["s7","Full stack",[["React"],["Next.js"],["Node.js"],["Python"],["PHP"],["Laravel"],["JavaScript"],["TypeScript"],["MongoDB"],["MySQL"],["REST APIs"]]],
-  ["s5","CMS / Commerce",[["Shopify"],["WordPress"],["Drupal"],["Twig"],["Liquid"],["WooCommerce"]]],
-  ["s4","AI / Automation",[["Local AI builders"],["Claude Code"],["MCP"],["CLI workflows"],["AI-assisted development"],["Prompt-driven development"],["Automation"]]],
-  ["s8","Infrastructure / Systems",[["AWS","Stage 1 certified"],["Server knowledge","working"],["Configuration servers","working"],["Environment management","working"],["Deployment workflows","working"],["Git"],["API architecture"],["DevOps concepts","basic"]]]],
- tl:[["APR 2024","Abacudesk","Joined Abacudesk on 1 April 2024. Professional experience is counted from this date."],["2024","WordPress","Practical experience with WordPress development and CMS-based projects."],["2024","Drupal","Drupal architecture, content management, customization and development workflows."],["2024–2025","Shopify","Custom themes, e-commerce workflows and storefront customization."],["2025","Laravel","Backend development and MVC architecture with Laravel and PHP."],["2025","Next.js","Modern React-based application development."],["2025","React","Component-driven frontend and interactive web apps."],["2025","MongoDB","NoSQL concepts, data modeling and integration."],["2025–2026","Configuration / Server knowledge","Environment configuration, deployment concepts and infrastructure fundamentals."],["2026","AI builds","AI-assisted development with Claude Code, MCP, CLI workflows, local AI builders and automation."]]
+  ["s5","Next.js","","Component-driven React applications with routing, server rendering and API-backed pages, built for fast and maintainable front ends."],
+  ["s7","WordPress","Custom Development + Custom Themes","Bespoke themes and custom functionality for content-managed business websites, built to the project's needs rather than from off-the-shelf templates."],
+  ["s7","Shopify","Custom Development + Custom Themes","Custom storefront themes and tailored store functionality, covering layout and section design, storefront customization and e-commerce workflows."],
+  ["s5","Drupal","","Content architecture, customization and development workflows for structured, content-heavy websites."],
+  ["s12","AI Automation","","Using AI-assisted development to build and ship faster, and applying automation to everyday web work: connecting systems through API integrations, streamlining content and process tasks, and shaping intelligent web workflows that save time and reduce repetitive effort.",
+   ["AI-assisted development","Workflow automation","Content / process automation","API integrations","Productivity automation","Intelligent web workflows"]],
+  ["s4","PHP","","Server-side development for CMS platforms and custom applications, forming the foundation of much of my backend work."],
+  ["s4","Schema / JSON / Liquid","","Structured data, JSON configuration and Liquid templating for dynamic, data-driven page and storefront content."],
+  ["s4","Twig","Frontend + Backend","Template-driven development across the presentation layer and the backend logic that supplies it."],
+  ["s6","SQL / MongoDB","","Relational and document data modeling, queries and integration for application backends."],
+  ["s6","Tailwind CSS","","Utility-first styling for consistent, responsive and maintainable interfaces."]],
+ tl:[["01 APR 2024","Joined Abacudesk","Started as a professional developer at Abacudesk on 1 April 2024. Professional experience is counted from this date."],
+  ["2024","CMS and website development","Hands-on work with WordPress and Drupal: custom themes, content management, customization and CMS-based project delivery."],
+  ["2024–2025","E-commerce development","Shopify custom themes, storefront customization and e-commerce workflows built around each client's business needs."],
+  ["2025","Modern web applications","Component-driven interfaces with React and Next.js, backed by SQL and MongoDB for data modeling and integration."],
+  ["Projects","Client website delivery","Selected work spans manufacturing, healthcare, industrial, automotive, education and e-commerce websites, listed in the projects section above."],
+  ["2025–2026","Servers and deployment","Environment configuration, deployment workflows and infrastructure fundamentals, supported by AWS Stage 1 certification."],
+  ["2026","AI-assisted development","Applying Claude Code, MCP, CLI workflows and automation to build and ship faster."]]
 };
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -381,7 +423,7 @@ function showP(i){if(i===cur)return;cur=i;const p=PJ[i],art=p[3]?`<img src="${es
 const pk=e=>{const r=e.target.closest(".pr");if(r)showP(+r.dataset.i)};
 plist.addEventListener("mouseover",pk);plist.addEventListener("focusin",pk);showP(0);
 /* matrix */
-$("#mx").innerHTML=CFG.matrix.map(m=>`<div class="cell ${m[0]}"><span class="lab">${m[0]==="s7"?"Core":m[0]==="s5"?"Platforms":m[0]==="s4"?"Workflow":"Ops"}</span><h3>${m[1]}</h3>${m[2].map(t=>`<span class="chip">${t[0]}${t[1]?`<em>${t[1]}</em>`:""}</span>`).join("")}</div>`).join("");
+$("#mx").innerHTML=CFG.matrix.map((m,i)=>`<div class="cell ${m[0]}"><span class="lab">${String(i+1).padStart(2,"0")}</span><h3>${m[1]}</h3>${m[2]?`<span class="sub">${m[2]}</span>`:""}<p>${m[3]}</p>${m[4]?`<div class="chips">${m[4].map(t=>`<span class="chip">${t}</span>`).join("")}</div>`:""}</div>`).join("");
 /* timeline */
 $("#tl").insertAdjacentHTML("beforeend",CFG.tl.map(t=>`<div class="it"><div class="y">${t[0]}</div><div class="d"></div><div><h3>${t[1]}</h3><p>${t[2]}</p></div></div>`).join(""));
 /* experience summary bar (computed from JOINED) */
