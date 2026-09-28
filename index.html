@@ -72,21 +72,17 @@ nav a:hover,nav a.on{color:var(--text)}nav a:hover::after,nav a.on::after{transf
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .tags i{font-style:normal;font-size:12px;border:1px solid var(--line);padding:4px 12px;border-radius:99px;color:#ccc}
 /* matrix */
-#tech{padding:120px 0}
-#tech h2{margin:16px 0 56px}
-.tm{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
-.tc{position:relative;background:var(--bg);padding:40px 44px 44px;display:grid;gap:16px;align-content:start;min-height:250px;transition:background .4s}
-.tc:hover{background:var(--surface)}
-.tc::before{content:"";position:absolute;top:0;left:0;height:2px;width:0;background:var(--grad);transition:width .6s}
-.tc:hover::before{width:100%}
-.tc h3{font-size:clamp(24px,2.6vw,38px);line-height:1.05;letter-spacing:-.02em}
-.tc .bd{justify-self:start;border:1px solid rgba(212,175,55,.45);padding:6px 14px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--k)}
-.tc p{color:#b8b8b8;font-size:16px;line-height:1.7;max-width:54ch}
-@media (max-width:900px){
-#tech{padding:72px 0}
-.tm{grid-template-columns:1fr}
-.tc{padding:30px 22px 32px;min-height:0}
-}
+#tech h2{margin:22px 0 48px}
+.mx{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.cell{background:var(--bg);padding:28px;position:relative;transition:background .4s}
+.cell:hover{background:var(--surface)}
+.cell::before{content:"";position:absolute;top:0;left:0;height:2px;width:0;background:var(--grad);transition:width .6s}
+.cell:hover::before{width:100%}
+.cell h3{font-size:clamp(20px,2.2vw,30px);margin:8px 0 18px}
+.s7{grid-column:span 7}.s5{grid-column:span 5}.s4{grid-column:span 4}.s8{grid-column:span 8}
+.chip{display:inline-block;margin:0 8px 8px 0;padding:6px 14px;border:1px solid var(--line);border-radius:99px;font-size:13px;transition:border-color .3s,transform .3s}
+.chip:hover{border-color:var(--c);transform:translateY(-2px)}
+.chip em{font-style:normal;color:var(--muted);font-size:11px;margin-left:6px}
 /* timeline */
 #exp h2{margin:22px 0 56px}
 .tl{position:relative;max-width:980px;margin:0 auto}
@@ -266,8 +262,8 @@ form{padding:clamp(16px,2.2vw,28px);gap:14px}
 
 <section id="tech"><div class="wrap">
 <span class="lab">04 / Tech matrix</span>
-<h2 class="g">TECHNOLOGY MATRIX</h2>
-<div class="tm" id="mx"></div>
+<h2 class="g">THE TECHNOLOGY MATRIX</h2>
+<div class="mx" id="mx"></div>
 </div></section>
 
 <section id="exp"><div class="wrap">
@@ -359,18 +355,12 @@ const CFG={
   ["Lifelong Med","http://lifelongmed.com/","Healthcare"],
   ["Aica Sunmica","https://aicasunmica.com/","Manufacturing"]],
  matrix:[
-  ["Next.js","","Modern React-based applications with routing, server rendering and a performance-minded architecture."],
-  ["WordPress","Custom Development + Custom Themes","Bespoke themes and custom functionality for CMS-driven business websites, built to be easy for clients to manage."],
-  ["Shopify","Custom Development + Custom Themes","Custom storefront themes and tailored commerce functionality, built around business goals and fast shopping experiences."],
-  ["Drupal","","Content architecture, customization and development workflows for structured, content-rich websites."],
-  ["AI Automation","","AI-assisted development and workflow automation, applied to content and process automation, API integrations and productivity automation, to build intelligent web workflows."],
-  ["PHP","","Server-side development behind CMS customization and custom backend logic."],
-  ["Schema / JSON / Liquid","","Structured schema and JSON configuration with Liquid templating for flexible, editable theme sections."],
-  ["Twig","Frontend + Backend","Template and theme development in Twig, from the presentation layer through to backend template logic."],
-  ["SQL / MongoDB","","Relational and NoSQL data modeling, querying and integration for application and CMS data."],
-  ["Tailwind CSS","","Utility-first styling for responsive, consistent and maintainable interfaces."]
- ],
-},
+  ["s7","Full stack",[["React"],["Next.js"],["Node.js"],["Python"],["PHP"],["Laravel"],["JavaScript"],["TypeScript"],["MongoDB"],["MySQL"],["REST APIs"]]],
+  ["s5","CMS / Commerce",[["Shopify"],["WordPress"],["Drupal"],["Twig"],["Liquid"],["WooCommerce"]]],
+  ["s4","AI / Automation",[["Local AI builders"],["Claude Code"],["MCP"],["CLI workflows"],["AI-assisted development"],["Prompt-driven development"],["Automation"]]],
+  ["s8","Infrastructure / Systems",[["AWS","Stage 1 certified"],["Server knowledge","working"],["Configuration servers","working"],["Environment management","working"],["Deployment workflows","working"],["Git"],["API architecture"],["DevOps concepts","basic"]]]],
+ tl:[["APR 2024","Abacudesk","Joined Abacudesk on 1 April 2024. Professional experience is counted from this date."],["2024","WordPress","Practical experience with WordPress development and CMS-based projects."],["2024","Drupal","Drupal architecture, content management, customization and development workflows."],["2024–2025","Shopify","Custom themes, e-commerce workflows and storefront customization."],["2025","Laravel","Backend development and MVC architecture with Laravel and PHP."],["2025","Next.js","Modern React-based application development."],["2025","React","Component-driven frontend and interactive web apps."],["2025","MongoDB","NoSQL concepts, data modeling and integration."],["2025–2026","Configuration / Server knowledge","Environment configuration, deployment concepts and infrastructure fundamentals."],["2026","AI builds","AI-assisted development with Claude Code, MCP, CLI workflows, local AI builders and automation."]]
+};
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 const ARROW='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
@@ -391,8 +381,8 @@ function showP(i){if(i===cur)return;cur=i;const p=PJ[i],art=p[3]?`<img src="${es
 const pk=e=>{const r=e.target.closest(".pr");if(r)showP(+r.dataset.i)};
 plist.addEventListener("mouseover",pk);plist.addEventListener("focusin",pk);showP(0);
 /* matrix */
-$("#mx").innerHTML=CFG.matrix.map((m,i)=>`<article class="tc"><span class="lab">${String(i+1).padStart(2,"0")}</span><h3>${m[0]}</h3>${m[1]?`<span class="bd">${m[1]}</span>`:""}<p>${m[2]}</p></article>`).join("");
- /* timeline */
+$("#mx").innerHTML=CFG.matrix.map(m=>`<div class="cell ${m[0]}"><span class="lab">${m[0]==="s7"?"Core":m[0]==="s5"?"Platforms":m[0]==="s4"?"Workflow":"Ops"}</span><h3>${m[1]}</h3>${m[2].map(t=>`<span class="chip">${t[0]}${t[1]?`<em>${t[1]}</em>`:""}</span>`).join("")}</div>`).join("");
+/* timeline */
 $("#tl").insertAdjacentHTML("beforeend",CFG.tl.map(t=>`<div class="it"><div class="y">${t[0]}</div><div class="d"></div><div><h3>${t[1]}</h3><p>${t[2]}</p></div></div>`).join(""));
 /* experience summary bar (computed from JOINED) */
 $("#tenure").innerHTML=`<b class="g">${EXP.y>=1?EXP.y+"+ YEARS":EXP.m+" MONTHS"}</b><span>at Abacudesk, since 1 April 2024</span><span class="lab">${EXP.y} yr${EXP.y===1?"":"s"} ${EXP.m} mo so far</span>`;
